@@ -1,0 +1,13 @@
+# Ignore padrão
+**/node_modules
+**/dist
+**/build
+**/coverage
+**/.next
+**/out
+
+# Arquivos de configuração
+**/*.config.js
+**/*.eslintrc.js
+**/tsconfig.json
+**/package-lock.json

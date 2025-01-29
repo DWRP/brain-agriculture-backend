@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: ba-db
+    image: postgres:15
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  app:
+    container_name: ba-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+    depends_on:
+      - postgres
+
+volumes:
+  postgres-data:
+
+networks:
+  app:
+    name: App
+    driver: bridge
